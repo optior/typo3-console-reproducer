@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  php:
+    depends_on:
+      - db
+    restart: unless-stopped
+    build:
+      context: .
+      target: production
+    environment:
+      TYPO3_CONTEXT: Production
+      TYPO3_DB_USER: typo3
+      TYPO3_DB_PASSWORD: start123
+      TYPO3_DB_HOST: db
+      TYPO3_DB_PORT: 3306
+      TYPO3_DB_NAME: typo3_db
+      TYPO3_ADMIN: admin
+      TYPO3_PASSWORD: Supersecret!
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+
+  db:
+    build:
+      context: .
+      target: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: sichererstart123
+      MYSQL_DATABASE: typo3_db
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: start123
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - target: 3306
+        published: 3306
+        protocol: tcp
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  db-data:
