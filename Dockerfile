@@ -63,3 +63,5 @@ USER www-data
 COPY --chown=www-data:www-data --from=build /var/www/html/ /var/www/html/
 COPY --chown=www-data:www-data config/ /var/www/html/config/
 COPY --chown=www-data:www-data public/ /var/www/html/public/
+COPY --chown=www-data:www-data docker/SimpleFileBackend.php /var/www/html/public/typo3/sysext/core/Classes/Cache/Backend/SimpleFileBackend.php
+
